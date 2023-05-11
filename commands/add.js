@@ -46,29 +46,26 @@ const invoke = (interaction) => {
     const elementKey = interaction.options.getString("elementkey");
     const elementValue = interaction.options.getString("elementvalue");
     const authorName = interaction.member.displayName;
-    const dataObj = {};
+    let dataObj = {};
 
     try {
         // Try to read the file in question, if read, set dataObj to a parsed version of the read buffer.
-        console.log(`Attempting to read ${elementKey}.json...`);
-        fs.readFile(
+        console.log(`Attempting to read pool${elementKey}Staged.json...`);
+        const data = fs.readFileSync(
             `./data/pool${elementKey}Staged.json`,
-            "utf8",
-            (err, data) => {
-                if (err) {
-                    console.error(err);
-                    return;
-                }
-
-                dataObj = JSON.parse(data);
-                console.log("Outputing dataObj after parsing");
-                console.log(dataObj);
-            }
+            "utf8"
         );
+
+        console.log("Outputting contents of data \n" + data);
+        dataObj = JSON.parse(data);
+        console.log("Outputting dataObj after parsing");
+        console.log(dataObj);
     } catch (err) {
         // Failed to read the file in question, create it, the proceed.
         console.error(err);
-        console.log(`Failed to read ${elementKey}.json! Recreating...`);
+        console.log(
+            `Failed to read pool${elementKey}Staged.json! Recreating...`
+        );
     } finally {
         // Prepare new JSON object
         dataObj[uuidv4()] = {
@@ -76,7 +73,7 @@ const invoke = (interaction) => {
             author: authorName,
         };
         console.log(
-            `Attempting to write ${elementKey} "${elementValue}" added to ${elementKey}.json.`
+            `Attempting to write ${elementKey} "${elementValue}" to pool${elementKey}Staged.json.`
         );
         fs.writeFile(
             `./data/pool${elementKey}Staged.json`,
@@ -85,17 +82,17 @@ const invoke = (interaction) => {
                 if (err) {
                     console.error(err);
                     interaction.reply({
-                        content: `Unable to add new ${elementKey} \"${elementValue}\" to ${elementKey}.json.`,
+                        content: `Unable to add new ${elementKey} \"${elementValue}\" to pool${elementKey}Staged.json.`,
                         ephemeral: true,
                     });
                     return;
                 }
                 interaction.reply({
-                    content: `New ${elementKey} \"${elementValue}\" added to ${elementKey}.json.`,
+                    content: `New ${elementKey} \"${elementValue}\" added to pool${elementKey}Staged.json.`,
                     ephemeral: true,
                 });
                 console.log(
-                    `New ${elementKey} \"${elementValue}\" added to ${elementKey}.json.`
+                    `New ${elementKey} \"${elementValue}\" added to pool${elementKey}Staged.json.`
                 );
             }
         );
