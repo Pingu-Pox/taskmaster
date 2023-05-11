@@ -1,6 +1,5 @@
 import {
     SlashCommandSubcommandBuilder,
-    PermissionsBitField,
     Attachment,
     AttachmentBuilder,
     MessagePayload,
@@ -8,8 +7,7 @@ import {
 import fs from "fs";
 
 const NAME = "list";
-const DESCRIPTION =
-    "Lists scenarios based on which pool you select. `clan` or ` pillar`";
+const DESCRIPTION = "Lists all elements for a given element pool.";
 const MAX_MESSAGE_SIZE = 2000;
 
 // Creates an Object in JSON with the data required by Discord's API to create a SlashCommand
@@ -19,19 +17,35 @@ const create = () => {
         .setDescription(DESCRIPTION)
         .addStringOption((option) =>
             option
-                .setName("pooltype")
-                .setDescription(
-                    "The pool you want to list. `clan` or ` pillar`"
-                )
+                .setName("elementkey")
+                .setDescription("The type of element to add.")
                 .setRequired(true)
+                .addChoices(
+                    { name: "Scenario", value: "Scenario" },
+                    { name: "Type", value: "Type" },
+                    { name: "Armor", value: "Armor" },
+                    { name: "Jewelry", value: "Jewelry" },
+                    { name: "Artifact", value: "Artifact" },
+                    { name: "Weapon", value: "Weapon" },
+                    { name: "Tool", value: "Tool" },
+                    { name: "Instrument", value: "Instrument" },
+                    { name: "Metal", value: "Metal" },
+                    { name: "Wood", value: "Wood" },
+                    { name: "Stone", value: "Stone" },
+                    { name: "Misc", value: "Misc" },
+                    { name: "Gem", value: "Gem" },
+                    { name: "Enchant", value: "Enchant" }
+                )
         )
         .addStringOption((option) =>
             option
-                .setName("environment")
-                .setDescription(
-                    "The environment you are targeting. 'stage' or 'live'"
-                )
+                .setName("envtype")
+                .setDescription("Which environment to list, Staged or Live.")
                 .setRequired(true)
+                .addChoices(
+                    { name: "Staged", value: "Staged" },
+                    { name: "Live", value: "Live" }
+                )
         );
 
     return command.toJSON();
@@ -39,188 +53,44 @@ const create = () => {
 
 // Called by the interactionCreate event listener when the corresponding command is invoked
 const invoke = (interaction) => {
-    if (
-        !interaction.member.permissions.has(PermissionsBitField.Administrator)
-    ) {
-        interaction.reply("You do not have required role to use this command");
-        console.log(
-            `${interaction.member.displayName} tried running /list ` +
-                interaction.options.getString("pooltype") +
-                ` ` +
-                interaction.options.getString("environment") +
-                `, but lacked permissions.`
+    const elementKey = interaction.options.getString("elementkey");
+    const envType = interaction.options.getString("envtype");
+    const authorName = interaction.member.displayName;
+
+    try {
+        fs.readFile(
+            `data/pool${elementKey}${envType}.json`,
+            "utf8",
+            (err, pool) => {
+                if (err) {
+                    console.error(err);
+                    return;
+                }
+
+                // Check if the file is too large for a single message
+                console.log("Message length is: " + pool.length);
+                if (pool.length <= MAX_MESSAGE_SIZE) {
+                    // Output the JSON data directly as a Discord message
+                    interaction.reply({
+                        content: "```" + pool + "```",
+                        ephemeral: true,
+                    });
+                } else {
+                    const buffer = Buffer.from(pool, "utf-8");
+                    const attachment = new AttachmentBuilder(buffer, {
+                        name: `pool${elementKey}${envType}.json`,
+                    });
+                    interaction.reply({
+                        content: `Here's the ${envType} list of the ${elementKey} types`,
+                        files: [attachment],
+                        ephemeral: true,
+                    });
+                }
+            }
         );
+    } catch (err) {
+        console.error(err);
         return;
-    } else {
-        console.log(
-            `${interaction.member.displayName} tried running /list ` +
-                interaction.options.getString("pooltype") +
-                ` ` +
-                interaction.options.getString("environment") +
-                `, and has permissions to do so.`
-        );
-    }
-    if (interaction.options.getString("pooltype") === "clan") {
-        if (interaction.options.getString("environment") === "stage") {
-            // List Staged Clan Data
-            try {
-                fs.readFile("data/poolClanStaged.json", "utf8", (err, clan) => {
-                    if (err) {
-                        console.error(err);
-                        return;
-                    }
-
-                    // Check if the file is too large for a single message
-                    console.log("Message length is: " + clan.length);
-                    if (clan.length <= MAX_MESSAGE_SIZE) {
-                        // Output the JSON data directly as a Discord message
-                        interaction.reply({
-                            content: "```" + clan + "```",
-                            ephemeral: true,
-                        });
-                    } else {
-                        const buffer = Buffer.from(clan, "utf-8");
-                        const attachment = new AttachmentBuilder(buffer, {
-                            name: "poolClanStaged.json",
-                        });
-                        interaction.reply({
-                            content: "Here are the staged clan-scenarios",
-                            files: [attachment],
-                            ephemeral: true,
-                        });
-                    }
-                });
-            } catch (err) {
-                console.error(err);
-                return;
-            }
-        } else if (interaction.options.getString("environment") === "live") {
-            // List Live Clan Data
-            try {
-                fs.readFile("data/poolClan.json", "utf8", (err, clan) => {
-                    if (err) {
-                        console.error(err);
-                        return;
-                    }
-
-                    // Check if the file is too large for a single message
-                    console.log("Message length is: " + clan.length);
-                    if (clan.length <= MAX_MESSAGE_SIZE) {
-                        // Output the JSON data directly as a Discord message
-                        interaction.reply({
-                            content: "```" + clan + "```",
-                            ephemeral: true,
-                        });
-                    } else {
-                        const buffer = Buffer.from(clan, "utf-8");
-                        const attachment = new AttachmentBuilder(buffer, {
-                            name: "poolClan.json",
-                        });
-                        interaction.reply({
-                            content: "Here are the live clan-scenarios",
-                            files: [attachment],
-                            ephemeral: true,
-                        });
-                    }
-                });
-            } catch (err) {
-                console.error(err);
-                return;
-            }
-        } else {
-            interaction.reply({
-                content:
-                    "Invalid environment: " +
-                    interaction.options.getString("environment"),
-                ephemeral: true,
-            });
-        }
-    } else if (interaction.options.getString("pooltype") === "pillar") {
-        if (interaction.options.getString("environment") === "stage") {
-            // List Staged Pillar Data
-            try {
-                fs.readFile(
-                    "data/poolPillarStaged.json",
-                    "utf8",
-                    (err, pillar) => {
-                        if (err) {
-                            console.error(err);
-                            return;
-                        }
-
-                        // Check if the file is too large for a single message
-                        console.log("Message length is: " + pillar.length);
-                        if (pillar.length <= MAX_MESSAGE_SIZE) {
-                            // Output the JSON data directly as a Discord message
-                            interaction.reply({
-                                content: "```" + pillar + "```",
-                                ephemeral: true,
-                            });
-                        } else {
-                            const buffer = Buffer.from(pillar, "utf-8");
-                            const attachment = new AttachmentBuilder(buffer, {
-                                name: "poolPillarStaged.json",
-                            });
-                            interaction.reply({
-                                content: "Here are the staged pillar-scenarios",
-                                files: [attachment],
-                                ephemeral: true,
-                            });
-                        }
-                    }
-                );
-            } catch (err) {
-                console.error(err);
-                return;
-            }
-        } else if (interaction.options.getString("environment") === "live") {
-            // List Live Pillar Data
-            try {
-                fs.readFile("data/poolPillar.json", "utf8", (err, pillar) => {
-                    if (err) {
-                        console.error(err);
-                        return;
-                    }
-
-                    // Check if the file is too large for a single message
-                    console.log("Message length is: " + pillar.length);
-                    if (pillar.length <= MAX_MESSAGE_SIZE) {
-                        // Output the JSON data directly as a Discord message
-                        interaction.reply({
-                            content: "```" + pillar + "```",
-                            ephemeral: true,
-                        });
-                    } else {
-                        const buffer = Buffer.from(pillar, "utf-8");
-                        const attachment = new AttachmentBuilder(buffer, {
-                            name: "poolPillar.json",
-                        });
-                        interaction.reply({
-                            content: "Here are the live pillar-scenarios",
-                            files: [attachment],
-                            ephemeral: true,
-                        });
-                    }
-                });
-            } catch (err) {
-                console.error(err);
-                return;
-            }
-        } else {
-            interaction.reply({
-                content:
-                    "Invalid environment: " +
-                    interaction.options.getString("environment"),
-                ephemeral: true,
-            });
-        }
-    } else {
-        interaction.reply({
-            content:
-                "Invalid pooltype: " +
-                interaction.options.getString("pooltype"),
-            ephemeral: true,
-        });
     }
 };
 
