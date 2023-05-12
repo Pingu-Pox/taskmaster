@@ -3,8 +3,6 @@ import fs from "fs";
 
 const NAME = "remove";
 const DESCRIPTION = "Removes an element from the selected element pool.";
-const filepath = "data/poolClanStaged.json";
-const trashpath = "data/deletedObjects.json";
 
 // Creates an Object in JSON with the data required by Discord's API to create a SlashCommand
 const create = () => {
@@ -54,30 +52,24 @@ const invoke = (interaction) => {
 
     try {
         // Read the pool
-        poolData = fs.readFileSync(
-            `./data/pool${elementKey}Staged.json`,
-            "utf8"
-        );
+        poolData = fs.readFileSync(`./data/staged/${elementKey}.json`, "utf8");
 
         poolObj = JSON.parse(poolData);
         console.log("poolData output: \n" + poolData);
     } catch (err) {
-        console.error(`Failed to read pool${elementKey}Staged.json\n` + err);
+        console.error(`Failed to read ${elementKey}.json\n` + err);
     }
 
     try {
         // Read the trash
-        trashData = fs.readFileSync(
-            `./data/trash${elementKey}Staged.json`,
-            "utf8"
-        );
+        trashData = fs.readFileSync(`./data/trash/${elementKey}.json`, "utf8");
 
         trashObj = JSON.parse(trashData);
         console.log("trashData output: \n" + trashData);
     } catch (err) {
-        console.error(`Failed to read trash${elementKey}Staged.json\n` + err);
-        fs.writeFileSync(`./data/trash${elementKey}Staged.json`, "");
-        console.log(`Recreated trash${elementKey}Staged.json`);
+        console.error(`Failed to read ${elementKey}.json\n` + err);
+        fs.writeFileSync(`./data/trash/${elementKey}.json`, "");
+        console.log(`Recreated ${elementKey}.json`);
     }
 
     if (poolObj.hasOwnProperty(keyToDelete)) {
@@ -85,7 +77,7 @@ const invoke = (interaction) => {
             'Found key "' +
                 keyToDelete +
                 '" in ' +
-                `./data/pool${elementKey}Staged.json`
+                `./data/staged/${elementKey}.json`
         );
         if (!Array.isArray(trashObj)) {
             trashObj = []; // make sure trashObj is an array
@@ -93,7 +85,7 @@ const invoke = (interaction) => {
         trashObj.push(poolObj[keyToDelete]);
         console.log("Time to write the changes to the trash");
         fs.writeFile(
-            `./data/trash${elementKey}Staged.json`,
+            `./data/trash/${elementKey}.json`,
             JSON.stringify(trashObj, null, 2),
             (err) => {
                 if (err) {
@@ -101,14 +93,14 @@ const invoke = (interaction) => {
                     return;
                 }
                 console.log(
-                    `Key ${keyToDelete} copied successfully from pool${elementKey}Staged.json to trash${elementKey}Staged.json.`
+                    `Key ${keyToDelete} copied successfully from ${elementKey}.json to ${elementKey}.json.`
                 );
             }
         );
 
         delete poolObj[keyToDelete];
         fs.writeFile(
-            `./data/pool${elementKey}Staged.json`,
+            `./data/staged/${elementKey}.json`,
             JSON.stringify(poolObj, null, 2),
             (err) => {
                 if (err) {
@@ -116,20 +108,18 @@ const invoke = (interaction) => {
                     return;
                 }
                 console.log(
-                    `Key ${keyToDelete} deleted successfully from pool${elementKey}Staged.json`
+                    `Key ${keyToDelete} deleted successfully from ${elementKey}.json`
                 );
             }
         );
         interaction.reply({
-            content: `Key ${keyToDelete} deleted successfully from pool${elementKey}Staged.json`,
+            content: `Key ${keyToDelete} deleted successfully from ${elementKey}.json`,
             ephemeral: true,
         });
     } else {
-        console.log(
-            `Key ${keyToDelete} not found in pool${elementKey}Staged.json`
-        );
+        console.log(`Key ${keyToDelete} not found in ${elementKey}.json`);
         interaction.reply({
-            content: `Key ${keyToDelete} not found in pool${elementKey}Staged.json`,
+            content: `Key ${keyToDelete} not found in ${elementKey}.json`,
             ephemeral: true,
         });
     }

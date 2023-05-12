@@ -43,8 +43,9 @@ const create = () => {
                 .setDescription("Which environment to list, Staged or Live.")
                 .setRequired(true)
                 .addChoices(
+                    { name: "Live", value: "Live" },
                     { name: "Staged", value: "Staged" },
-                    { name: "Live", value: "Live" }
+                    { name: "Trash", value: "Trash" }
                 )
         );
 
@@ -54,12 +55,12 @@ const create = () => {
 // Called by the interactionCreate event listener when the corresponding command is invoked
 const invoke = (interaction) => {
     const elementKey = interaction.options.getString("elementkey");
-    const envType = interaction.options.getString("envtype");
+    const envType = interaction.options.getString("envtype").toLowerCase();
     const authorName = interaction.member.displayName;
 
     try {
         fs.readFile(
-            `data/pool${elementKey}${envType}.json`,
+            `data/${envType}/${elementKey}.json`,
             "utf8",
             (err, pool) => {
                 if (err) {

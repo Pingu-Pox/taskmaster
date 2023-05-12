@@ -1,5 +1,6 @@
 import { SlashCommandSubcommandBuilder, PermissionsBitField } from "discord.js";
 import fs from "fs";
+import path from "path";
 
 const NAME = "merge";
 const DESCRIPTION = "Merges the staged pools into the live pools.";
@@ -15,20 +16,71 @@ const create = () => {
 
 // Called by the interactionCreate event listener when the corresponding command is invoked
 const invoke = (interaction) => {
-    // Check permissions
-    if (
-        !interaction.member.permissions.has(PermissionsBitField.Administrator)
-    ) {
-        interaction.reply("You do not have required role to use this command");
-        console.log(
-            `${interaction.member.displayName} tried running /merge, but lacked permissions.`
-        );
-        return;
-    } else {
-        console.log(
-            `${interaction.member.displayName} tried running /merge, and has permissions to do so.`
-        );
-    }
+    const stagedFilesDirectory = "./data/staged";
+    const liveFilesDirectory = "./data/live";
+
+    // Read the list of staged files in the directory
+    let stagedFiles = fs.readdirSync(stagedFilesDirectory);
+
+    stagedFiles.forEach((stagedFile) => {
+        const stagedFilePath = `${stagedFilesDirectory}/${stagedFile}`;
+        const liveFilePath = `${liveFilesDirectory}/${stagedFile}`;
+
+        let liveData = {};
+
+        // Check if the live file exists
+        if (fs.existsSync(liveFilePath)) {
+            // Read the contents of the live file
+            const liveFileContent = fs.readFileSync(liveFilePath, "utf8");
+
+            // Parse the live file content
+            try {
+                liveData = JSON.parse(liveFileContent);
+            } catch (error) {
+                console.error("Error parsing live file content:", error);
+                return;
+            }
+        }
+
+        // Read the contents of the staged file
+        fs.readFile(stagedFilePath, "utf8", (err, stagedData) => {
+            if (err) {
+                console.error(`Error reading staged file ${stagedFile}:`, err);
+                return;
+            }
+
+            let mergedData = {};
+
+            try {
+                const stagedJson = JSON.parse(stagedData);
+                mergedData = { ...liveData, ...stagedJson };
+            } catch (error) {
+                console.error(
+                    `Error parsing staged file ${stagedFile} content:`,
+                    error
+                );
+                return;
+            }
+
+            // Convert the merged data to JSON string
+            const mergedJson = JSON.stringify(mergedData, null, 2);
+
+            // Write the merged data to the live file
+            fs.writeFile(liveFilePath, mergedJson, "utf8", (err) => {
+                if (err) {
+                    console.error(
+                        `Error writing to live file ${stagedFile}:`,
+                        err
+                    );
+                    return;
+                }
+
+                console.log(
+                    `Merged data from ${stagedFile} has been appended to the live file.`
+                );
+            });
+        });
+    });
 
     const now = new Date();
 
@@ -42,119 +94,55 @@ const invoke = (interaction) => {
 
     const dateTimeString = `${year}-${month}-${day}_${hours}-${minutes}-${seconds}`;
 
-    const clanBackupPath = `data/merges/clan-${dateTimeString}.json`;
-    const pillarBackupPath = `data/merges/pillar-${dateTimeString}.json`;
+    const sourceDirectory = "./data/staged";
+    const destinationDirectory = `./data/merges/${dateTimeString}`;
 
-    // Logic time!
-    console.log("Starting merge of clan scenarios...");
-    fs.readFile("data/poolClanStaged.json", "utf8", (err, clanStage) => {
+    // Read the list of files in the source directory
+    fs.readdir(sourceDirectory, (err, files) => {
         if (err) {
-            console.error(err);
+            console.error("Error reading source directory:", err);
             return;
         }
-        const clanStageObj = JSON.parse(clanStage);
-        fs.readFile("data/poolClan.json", "utf8", (err, clanLive) => {
-            if (err) {
-                console.error(err);
-                return;
-            }
-            const clanLiveObj = JSON.parse(clanLive);
-            const mergedClan = { ...clanLiveObj, ...clanStageObj };
-            fs.writeFile(
-                "data/poolClan.json",
-                JSON.stringify(mergedClan, null, 2),
-                (err) => {
-                    if (err) {
-                        console.error(err);
-                        return;
-                    }
-                    // Backup the processed data
-                    fs.writeFile(
-                        clanBackupPath,
-                        JSON.stringify(clanStageObj, null, 2),
-                        (err) => {
-                            if (err) {
-                                console.error(err);
-                                return;
-                            }
-                            console.log("Processed clan scenarios backed up!");
-                            const blankClan = {};
-                            fs.writeFileSync(
-                                "data/poolClanStaged.json",
-                                JSON.stringify(blankClan),
-                                (err) => {
-                                    if (err) {
-                                        console.error(err);
-                                        return;
-                                    }
-                                    console.log("Clan staging area cleared!");
-                                }
-                            );
-                        }
-                    );
-                    console.log("Merge of clan scenarios completed!");
-                }
-            );
-        });
-    });
 
-    console.log("Starting merge of pillar scenarios...");
-    fs.readFile("data/poolPillarStaged.json", "utf8", (err, pillarStage) => {
-        if (err) {
-            console.error(err);
-            return;
+        // Create the destination directory if it doesn't exist
+        if (!fs.existsSync(destinationDirectory)) {
+            fs.mkdirSync(destinationDirectory, { recursive: true });
         }
-        const pillarStageObj = JSON.parse(pillarStage);
-        fs.readFile("data/poolPillar.json", "utf8", (err, pillarLive) => {
-            if (err) {
-                console.error(err);
-                return;
-            }
-            const pillarLiveObj = JSON.parse(pillarLive);
-            const mergedPillar = { ...pillarLiveObj, ...pillarStageObj };
-            fs.writeFile(
-                "data/poolPillar.json",
-                JSON.stringify(mergedPillar, null, 2),
-                (err) => {
+
+        // Iterate over each file
+        files.forEach((file) => {
+            // Check if the file is a JSON file
+            if (path.extname(file) === ".json") {
+                const sourcePath = path.join(sourceDirectory, file);
+                const destinationPath = path.join(destinationDirectory, file);
+
+                // Copy the file to the destination directory
+                fs.copyFile(sourcePath, destinationPath, (err) => {
                     if (err) {
-                        console.error(err);
-                        return;
-                    }
-                    // Backup the processed data
-                    fs.writeFile(
-                        pillarBackupPath,
-                        JSON.stringify(pillarStageObj, null, 2),
-                        (err) => {
+                        console.error(`Error copying file ${file}:`, err);
+                    } else {
+                        console.log(`File ${file} copied successfully.`);
+
+                        // Delete the source file
+                        fs.unlink(sourcePath, (err) => {
                             if (err) {
-                                console.error(err);
-                                return;
+                                console.error(
+                                    `Error deleting source file ${file}:`,
+                                    err
+                                );
+                            } else {
+                                console.log(`Source file ${file} deleted.`);
                             }
-                            console.log(
-                                "Processed pillar scenarios backed up!"
-                            );
-                            const blankPillar = {};
-                            fs.writeFileSync(
-                                "data/poolPillarStaged.json",
-                                JSON.stringify(blankPillar),
-                                (err) => {
-                                    if (err) {
-                                        console.error(err);
-                                        return;
-                                    }
-                                    console.log("Pillar staging area cleared!");
-                                }
-                            );
-                        }
-                    );
-                    console.log("Merge of pillar scenarios completed!");
-                }
-            );
+                        });
+                    }
+                });
+            }
         });
     });
 
     interaction.reply({
         content:
-            "You have finalized pending scenarios, they will now appear in the brew.",
+            "You have finalized pending elements, they will now show up in new commissions.",
         ephemeral: true,
     });
 };
