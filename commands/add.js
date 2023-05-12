@@ -3,7 +3,7 @@ import fs from "fs";
 import { v4 as uuidv4 } from "uuid";
 
 const NAME = "add";
-const DESCRIPTION = "Add an element to the commission list";
+const DESCRIPTION = "Add an element an element pool.";
 
 // Creates an Object in JSON with the data required by Discord's API to create a SlashCommand
 const create = () => {
@@ -50,9 +50,9 @@ const invoke = (interaction) => {
 
     try {
         // Try to read the file in question, if read, set dataObj to a parsed version of the read buffer.
-        console.log(`Attempting to read pool${elementKey}Staged.json...`);
+        console.log(`Attempting to read ${elementKey}.json...`);
         const data = fs.readFileSync(
-            `./data/pool${elementKey}Staged.json`,
+            `./data/staged/${elementKey}.json`,
             "utf8"
         );
 
@@ -63,9 +63,7 @@ const invoke = (interaction) => {
     } catch (err) {
         // Failed to read the file in question, create it, the proceed.
         console.error(err);
-        console.log(
-            `Failed to read pool${elementKey}Staged.json! Recreating...`
-        );
+        console.log(`Failed to read ${elementKey}.json! Recreating...`);
     } finally {
         // Prepare new JSON object
         dataObj[uuidv4()] = {
@@ -73,26 +71,26 @@ const invoke = (interaction) => {
             author: authorName,
         };
         console.log(
-            `Attempting to write ${elementKey} "${elementValue}" to pool${elementKey}Staged.json.`
+            `Attempting to write ${elementKey} "${elementValue}" to ${elementKey}.json.`
         );
         fs.writeFile(
-            `./data/pool${elementKey}Staged.json`,
+            `./data/staged/${elementKey}.json`,
             JSON.stringify(dataObj, null, 2),
             (err) => {
                 if (err) {
                     console.error(err);
                     interaction.reply({
-                        content: `Unable to add new ${elementKey} \"${elementValue}\" to pool${elementKey}Staged.json.`,
+                        content: `Unable to add new ${elementKey} \"${elementValue}\" to ${elementKey}.json.`,
                         ephemeral: true,
                     });
                     return;
                 }
                 interaction.reply({
-                    content: `New ${elementKey} \"${elementValue}\" added to pool${elementKey}Staged.json.`,
+                    content: `New ${elementKey} \"${elementValue}\" added to ${elementKey}.json.`,
                     ephemeral: true,
                 });
                 console.log(
-                    `New ${elementKey} \"${elementValue}\" added to pool${elementKey}Staged.json.`
+                    `New ${elementKey} \"${elementValue}\" added to ${elementKey}.json.`
                 );
             }
         );
