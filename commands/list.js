@@ -21,7 +21,15 @@ const create = () => {
                 .setDescription("The type of element to add.")
                 .setRequired(true)
                 .addChoices(
-                    { name: "Scenario", value: "Scenario" },
+                    {
+                        name: "Scenario-Commercial",
+                        value: "Scenario-Commercial",
+                    },
+                    {
+                        name: "Scenario-Logistical",
+                        value: "Scenario-Logistical",
+                    },
+                    { name: "Scenario-Martial", value: "Scenario-Martial" },
                     { name: "Armor", value: "Armor" },
                     { name: "Jewelry", value: "Jewelry" },
                     { name: "Artifact", value: "Artifact" },
