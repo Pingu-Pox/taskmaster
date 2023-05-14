@@ -22,7 +22,6 @@ const create = () => {
                 .setRequired(true)
                 .addChoices(
                     { name: "Scenario", value: "Scenario" },
-                    { name: "Type", value: "Type" },
                     { name: "Armor", value: "Armor" },
                     { name: "Jewelry", value: "Jewelry" },
                     { name: "Artifact", value: "Artifact" },
