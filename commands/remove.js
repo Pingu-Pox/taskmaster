@@ -15,8 +15,15 @@ const create = () => {
                 .setDescription("The type of element to add.")
                 .setRequired(true)
                 .addChoices(
-                    { name: "Scenario", value: "Scenario" },
-                    { name: "Type", value: "Type" },
+                    {
+                        name: "Scenario-Commercial",
+                        value: "Scenario-Commercial",
+                    },
+                    {
+                        name: "Scenario-Logistical",
+                        value: "Scenario-Logistical",
+                    },
+                    { name: "Scenario-Martial", value: "Scenario-Martial" },
                     { name: "Armor", value: "Armor" },
                     { name: "Jewelry", value: "Jewelry" },
                     { name: "Artifact", value: "Artifact" },
@@ -49,6 +56,26 @@ const invoke = (interaction) => {
     let trashData = {};
     let poolObj = {};
     let trashObj = {};
+
+    const canRunCommand = [
+        "108400898195079168", // Hrothmir
+        "209885020041641985", // Thoghli
+        "218066533438586880", // Pingu
+    ];
+
+    const userRoles = interaction.member.roles.cache; // Get the roles of the interaction member
+
+    if (!canRunCommand.some((roleId) => userRoles.has(roleId))) {
+        interaction.reply("You are not permitted to use this command.");
+        console.log(
+            `${interaction.member.displayName} tried running /task remove ${elementKey} ${keyToDelete}, but lacked permissions.`
+        );
+        return;
+    } else {
+        console.log(
+            `${interaction.member.displayName} tried running /task remove ${elementKey} ${keyToDelete}, and has permissions to do so.`
+        );
+    }
 
     try {
         // Read the pool

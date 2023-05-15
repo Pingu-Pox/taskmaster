@@ -21,8 +21,15 @@ const create = () => {
                 .setDescription("The type of element to add.")
                 .setRequired(true)
                 .addChoices(
-                    { name: "Scenario", value: "Scenario" },
-                    { name: "Type", value: "Type" },
+                    {
+                        name: "Scenario-Commercial",
+                        value: "Scenario-Commercial",
+                    },
+                    {
+                        name: "Scenario-Logistical",
+                        value: "Scenario-Logistical",
+                    },
+                    { name: "Scenario-Martial", value: "Scenario-Martial" },
                     { name: "Armor", value: "Armor" },
                     { name: "Jewelry", value: "Jewelry" },
                     { name: "Artifact", value: "Artifact" },
@@ -56,7 +63,26 @@ const create = () => {
 const invoke = (interaction) => {
     const elementKey = interaction.options.getString("elementkey");
     const envType = interaction.options.getString("envtype").toLowerCase();
-    const authorName = interaction.member.displayName;
+
+    const canRunCommand = [
+        "1107509988798234775", // Ironguard
+        "1107510015423680562", // Ramheart
+        "1107509952936939641", // Runeforge
+    ];
+
+    const userRoles = interaction.member.roles.cache; // Get the roles of the interaction member
+
+    if (!canRunCommand.some((roleId) => userRoles.has(roleId))) {
+        interaction.reply("You are not permitted to use this command.");
+        console.log(
+            `${interaction.member.displayName} tried running /task list ${elementKey} ${envType}, but lacked permissions.`
+        );
+        return;
+    } else {
+        console.log(
+            `${interaction.member.displayName} tried running /task list ${elementKey} ${envType}, and has permissions to do so.`
+        );
+    }
 
     try {
         fs.readFile(

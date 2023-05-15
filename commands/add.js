@@ -16,8 +16,15 @@ const create = () => {
                 .setDescription("The type of element to add.")
                 .setRequired(true)
                 .addChoices(
-                    { name: "Scenario", value: "Scenario" },
-                    { name: "Type", value: "Type" },
+                    {
+                        name: "Scenario-Commercial",
+                        value: "Scenario-Commercial",
+                    },
+                    {
+                        name: "Scenario-Logistical",
+                        value: "Scenario-Logistical",
+                    },
+                    { name: "Scenario-Martial", value: "Scenario-Martial" },
                     { name: "Armor", value: "Armor" },
                     { name: "Jewelry", value: "Jewelry" },
                     { name: "Artifact", value: "Artifact" },
@@ -47,6 +54,26 @@ const invoke = (interaction) => {
     const elementValue = interaction.options.getString("elementvalue");
     const authorName = interaction.member.displayName;
     let dataObj = {};
+
+    const canRunCommand = [
+        "1107509988798234775", // Ironguard
+        "1107510015423680562", // Ramheart
+        "1107509952936939641", // Runeforge
+    ];
+
+    const userRoles = interaction.member.roles.cache; // Get the roles of the interaction member
+
+    if (!canRunCommand.some((roleId) => userRoles.has(roleId))) {
+        interaction.reply("You are not permitted to use this command.");
+        console.log(
+            `${interaction.member.displayName} tried running /task add ${elementKey} ${elementValue}, but lacked permissions.`
+        );
+        return;
+    } else {
+        console.log(
+            `${interaction.member.displayName} tried running /task add ${elementKey} ${elementValue}, and has permissions to do so.`
+        );
+    }
 
     try {
         // Try to read the file in question, if read, set dataObj to a parsed version of the read buffer.

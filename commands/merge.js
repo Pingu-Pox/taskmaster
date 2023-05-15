@@ -16,6 +16,26 @@ const create = () => {
 
 // Called by the interactionCreate event listener when the corresponding command is invoked
 const invoke = (interaction) => {
+    const canRunCommand = [
+        "108400898195079168", // Hrothmir
+        "209885020041641985", // Thoghli
+        "218066533438586880", // Pingu
+    ];
+
+    const userRoles = interaction.member.roles.cache; // Get the roles of the interaction member
+
+    if (!canRunCommand.some((roleId) => userRoles.has(roleId))) {
+        interaction.reply("You are not permitted to use this command.");
+        console.log(
+            `${interaction.member.displayName} tried running /task merge, but lacked permissions.`
+        );
+        return;
+    } else {
+        console.log(
+            `${interaction.member.displayName} tried running /task merge, and has permissions to do so.`
+        );
+    }
+
     const stagedFilesDirectory = "./data/staged";
     const liveFilesDirectory = "./data/live";
 
