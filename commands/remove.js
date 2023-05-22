@@ -65,8 +65,11 @@ const invoke = (interaction) => {
 
     const userRoles = interaction.member.roles.cache; // Get the roles of the interaction member
 
-    if (!canRunCommand.some((roleId) => userRoles.has(roleId))) {
-        interaction.reply("You are not permitted to use this command.");
+    if (!canRunCommand.includes(interaction.member.id)) {
+        interaction.reply({
+            content: "You are not permitted to use this command.",
+            ephemeral: true,
+        });
         console.log(
             `${interaction.member.displayName} tried running /task remove ${elementKey} ${keyToDelete}, but lacked permissions.`
         );

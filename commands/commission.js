@@ -1,4 +1,4 @@
-import { SlashCommandSubcommandBuilder } from "discord.js";
+import { SlashCommandSubcommandBuilder, EmbedBuilder } from "discord.js";
 import fs from "fs";
 
 const NAME = "commission";
@@ -51,7 +51,7 @@ const invoke = (interaction) => {
         "0", // ironguardLogistical5
         "0", // ironguardLogisticalNCO
         "1107436948869615746", // ministerOfCoin
-        "1107428271253110886", // promoter
+        "1107428271253110886", // merryMaker
         "0", // talespinner
         "0", // storyteller
         "0", // fabler
@@ -104,31 +104,58 @@ const invoke = (interaction) => {
     // Inside your command handler or interaction event
     const userRoles = interaction.member.roles.cache; // Get the roles of the interaction member
 
+    let scenarioString = "";
+    let embedImage = "";
+    let pillarVerb = "";
+    let pillarAdj = "";
     // Check if the user has any of the specified roles
     if (specialRoles.some((roleId) => userRoles.has(roleId))) {
         // If user has a special role, grab a scenario from any of the three pools
-        interaction.reply({
-            content: "You have a special role!",
-            ephemeral: true,
-        });
+        const assignPillar = Math.floor(Math.random() * 3);
+        switch (assignPillar) {
+            case 0:
+                scenarioString = getRandomElement("scenario-commercial");
+                pillarVerb = "craft";
+                pillarAdj = "";
+                embedImage =
+                    "https://xn--dnhold-3ya.com/wp-content/uploads/2023/05/commerce.gif";
+                break;
+            case 1:
+                scenarioString = getRandomElement("scenario-logistical");
+                pillarVerb = "procure materials for";
+                embedImage =
+                    "https://xn--dnhold-3ya.com/wp-content/uploads/2023/05/logistical.gif";
+                break;
+            case 2:
+                scenarioString = getRandomElement("scenario-martial");
+                pillarVerb = "test out";
+                embedImage =
+                    "https://xn--dnhold-3ya.com/wp-content/uploads/2023/05/martial.gif";
+                break;
+            default:
+                console.error(
+                    "Couldn't assign a scenario, this shouldn't happen!"
+                );
+                return;
+        }
     } else if (commercialRoles.some((roleId) => userRoles.has(roleId))) {
         // Grab a scenario from the commercial pool
-        interaction.reply({
-            content: "You have a commercial role!",
-            ephemeral: true,
-        });
+        scenarioString = getRandomElement("scenario-commercial");
+        pillarVerb = "craft";
+        embedImage =
+            "https://xn--dnhold-3ya.com/wp-content/uploads/2023/05/commerce.gif";
     } else if (logisticalRoles.some((roleId) => userRoles.has(roleId))) {
         // Grab a scenario from the logistical pool
-        interaction.reply({
-            content: "You have a logistical role!",
-            ephemeral: true,
-        });
+        scenarioString = getRandomElement("scenario-logistical");
+        pillarVerb = "procure materials for";
+        embedImage =
+            "https://xn--dnhold-3ya.com/wp-content/uploads/2023/05/logistical.gif";
     } else if (martialRoles.some((roleId) => userRoles.has(roleId))) {
         // Grab a scenario from the martial pool
-        interaction.reply({
-            content: "You have a martial role!",
-            ephemeral: true,
-        });
+        scenarioString = getRandomElement("scenario-martial");
+        pillarVerb = "test out";
+        embedImage =
+            "https://xn--dnhold-3ya.com/wp-content/uploads/2023/05/martial.gif";
     } else {
         // User wasn't in any approved roles, send them a reply telling them to reach out to leadership to get permission to participate.
         interaction.reply({
@@ -138,28 +165,177 @@ const invoke = (interaction) => {
         return;
     }
 
-    // Reply an ephemeral embed with a randomized object.
-
-    // Roll scenario (e.g. Your first craft)
-    // if ironguard martial, adventurer, or acolyte role detected
-    // else if ironguard commercial, toiler, or initiate role detected
-    // else if ironguard logistical, promoter, or student role detected
-    // else no matching roles detected
-    // have scenario stored as string
-
     // Roll type (e.g. armor)
+    let commissionType = "";
+    const rand = Math.floor(Math.random() * 6);
+    switch (rand) {
+        case 0:
+            commissionType = "armor";
+            break;
+        case 1:
+            commissionType = "jewelry";
+            break;
+        case 2:
+            commissionType = "artifact";
+            break;
+        case 3:
+            commissionType = "weapon";
+            break;
+        case 4:
+            commissionType = "tool";
+            break;
+        case 5:
+            commissionType = "instrument";
+            break;
+        default:
+            console.error(
+                "Couldn't assign an item type, this shouldn't happen!"
+            );
+            return;
+    }
+
     // Roll sub-type (e.g. helmet)
+    const subType = getRandomElement(commissionType);
+    console.log(subType);
 
     // Roll metal (e.g. bronze)
+    const metal = getRandomElement("metal");
+    console.log(metal);
+
     // Roll wood (e.g. birch)
+    const wood = getRandomElement("wood");
+    console.log(wood);
+
     // Roll stone (e.g. basalt)
+    const stone = getRandomElement("stone");
+    console.log(stone);
+
     // Roll misc (e.g. linen)
+    const misc = getRandomElement("misc");
+    console.log(misc);
+
     // Roll gem (e.g. diamond)
+    const gem = getRandomElement("gem");
+    console.log(gem);
+
     // Roll enchant (e.g. bane)
+    const enchant = getRandomElement("enchant");
+    console.log(enchant);
 
-    // 5% chance to blank a material type
+    // Write a customized blob of text that references the user's rank, scenario, and item elements.
+    let embedDescription =
+        //"Customized blob of text pieced together by the below materials and some custom prompts.";
+        "You have been commissioned to " +
+        pillarVerb +
+        " " +
+        handleVowels(subType) +
+        ", made from " +
+        metal +
+        ", " +
+        wood +
+        ", and " +
+        stone +
+        ". Adorned with " +
+        handleVowels(gem) +
+        " and upholstered with " +
+        misc +
+        ". Lastly ensure it has been enchanted with " +
+        enchant +
+        ". Good luck.";
 
-    // Send embed, with a button to set an element as "user-defined"
+    const embed = new EmbedBuilder()
+        .setColor("DarkPurple")
+        .setTitle("2023 Runeforge Expo")
+        .setURL("https://dünhold.com")
+        .setDescription(embedDescription)
+        .setThumbnail(
+            "https://xn--dnhold-3ya.com/wp-content/uploads/2023/05/Calgrim-the-Taskmaster.png"
+        )
+        .addFields({
+            name: "Scenario",
+            value: scenarioString,
+            inline: false,
+        })
+        .addFields({
+            name: "Item",
+            value: subType,
+            inline: true,
+        })
+        .addFields({
+            name: "Metal",
+            value: metal,
+            inline: true,
+        })
+        .addFields({
+            name: "Wood",
+            value: wood,
+            inline: true,
+        })
+        .addFields({
+            name: "Stone",
+            value: stone,
+            inline: true,
+        })
+        .addFields({
+            name: "Misc.",
+            value: misc,
+            inline: true,
+        })
+        .addFields({
+            name: "Gem",
+            value: gem,
+            inline: true,
+        })
+        .addFields({
+            name: "Enchant",
+            value: enchant,
+            inline: false,
+        })
+        .setImage(embedImage)
+        .setTimestamp()
+        .setFooter({
+            text: "Dünhold LLC.",
+            iconURL:
+                "https://xn--dnhold-3ya.com/wp-content/uploads/2023/02/Dunhold_banner_logo.png",
+        });
+
+    interaction.reply({
+        embeds: [embed],
+        ephemeral: true,
+    });
 };
+
+function getRandomElement(element) {
+    const elementBuffer = fs.readFileSync(
+        `./data/live/${element}.json`,
+        "utf8"
+    );
+    const elementObj = JSON.parse(elementBuffer);
+    const elementValues = Object.values(elementObj);
+    const randomIndex = Math.floor(Math.random() * elementValues.length);
+    const randomElementObj = elementValues[randomIndex].value;
+    return JSON.stringify(randomElementObj).replace(/"/g, "");
+}
+
+function handleVowels(word) {
+    let letter = word.charAt(0);
+
+    if (
+        letter === "a" ||
+        letter === "e" ||
+        letter === "i" ||
+        letter === "o" ||
+        letter === "u" ||
+        letter === "A" ||
+        letter === "E" ||
+        letter === "I" ||
+        letter === "O" ||
+        letter === "U"
+    ) {
+        return "an " + word;
+    } else {
+        return "a " + word;
+    }
+}
 
 export { create, DESCRIPTION, invoke, NAME };
