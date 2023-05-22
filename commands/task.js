@@ -4,6 +4,7 @@ import * as remove from "./remove.js";
 import * as list from "./list.js";
 import * as merge from "./merge.js";
 import * as commission from "./commission.js";
+import * as help from "./help.js";
 
 // Creates an Object in JSON with the data required by Discord's API to create a SlashCommand
 const create = () => {
@@ -153,6 +154,9 @@ const create = () => {
             subcommand
                 .setName(commission.NAME)
                 .setDescription(commission.DESCRIPTION)
+        )
+        .addSubcommand((subcommand) =>
+            subcommand.setName(help.NAME).setDescription(help.DESCRIPTION)
         );
 
     return command.toJSON();
@@ -172,6 +176,8 @@ const invoke = async (interaction) => {
         await merge.invoke(interaction);
     } else if (subcommand === "commission") {
         await commission.invoke(interaction);
+    } else if (subcommand === "help") {
+        await help.invoke(interaction);
     } else {
         interaction.reply({
             content: "Invalid subcommand: " + subCommand,
