@@ -24,8 +24,11 @@ const invoke = (interaction) => {
 
     const userRoles = interaction.member.roles.cache; // Get the roles of the interaction member
 
-    if (!canRunCommand.some((roleId) => userRoles.has(roleId))) {
-        interaction.reply("You are not permitted to use this command.");
+    if (!canRunCommand.includes(interaction.member.id)) {
+        interaction.reply({
+            content: "You are not permitted to use this command.",
+            ephemeral: true,
+        });
         console.log(
             `${interaction.member.displayName} tried running /task merge, but lacked permissions.`
         );
@@ -111,8 +114,9 @@ const invoke = (interaction) => {
     const hours = String(now.getHours()).padStart(2, "0");
     const minutes = String(now.getMinutes()).padStart(2, "0");
     const seconds = String(now.getSeconds()).padStart(2, "0");
+    const merger = interaction.member.displayName;
 
-    const dateTimeString = `${year}-${month}-${day}_${hours}-${minutes}-${seconds}`;
+    const dateTimeString = `${merger}-${year}-${month}-${day}_${hours}-${minutes}-${seconds}`;
 
     const sourceDirectory = "./data/staged";
     const destinationDirectory = `./data/merges/${dateTimeString}`;
