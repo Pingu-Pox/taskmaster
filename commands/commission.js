@@ -32,7 +32,7 @@ const invoke = (interaction) => {
         "0", // rancher
         "0", // keeper
         "0", // shepherd
-        "1107437108932640839", // ramkeeper
+        "1102057432634630265", // ramkeeper
         "1107428358276517888", // initiate
         "0", // apprentice
         "0", // journeydwarf
@@ -64,7 +64,7 @@ const invoke = (interaction) => {
         "0", // historian
         "0", // archaeologist
         "0", // lorekeeper
-        "1107437674597449768", // loremaster
+        "1061118286756053052", // loremaster
     ];
 
     // All martial roles - these users will get a scenario based on the aquisition of materials
@@ -75,7 +75,7 @@ const invoke = (interaction) => {
         "0", // ironguardMartial4
         "0", // ironguardMartial5
         "0", // ironguardMartialNCO
-        "1107436994340081734", // generalOfIron
+        "867287109940543518", // generalOfIron
         "1107428232174780456", // adventurer
         "0", // scout
         "0", // seeker
@@ -89,16 +89,14 @@ const invoke = (interaction) => {
         "0", // exorcist
         "0", // crusader
         "0", // arbiter
-        "1107437707896041595", // grandArbiter
+        "1061118908918140958", // grandArbiter
     ];
 
     // All special roles
     const specialRoles = [
         "1107454215179206697", // kin
-        "1107454006680363129", // thaneIronguard
-        "1107454134346588230", // thaneRamheart
-        "1107454168299479050", // thaneRuneforge
-        "1107454274012717216", // matriarch
+        "673298192640770060", // thane
+        "661019764583432222", // matriarch
     ];
 
     // Inside your command handler or interaction event

@@ -168,15 +168,15 @@ const invoke = async (interaction) => {
 
     if (subCommand === "add") {
         await add.invoke(interaction);
-    } else if (subcommand === "remove") {
+    } else if (subCommand === "remove") {
         await remove.invoke(interaction);
-    } else if (subcommand === "list") {
+    } else if (subCommand === "list") {
         await list.invoke(interaction);
-    } else if (subcommand === "merge") {
+    } else if (subCommand === "merge") {
         await merge.invoke(interaction);
-    } else if (subcommand === "commission") {
+    } else if (subCommand === "commission") {
         await commission.invoke(interaction);
-    } else if (subcommand === "help") {
+    } else if (subCommand === "help") {
         await help.invoke(interaction);
     } else {
         interaction.reply({
