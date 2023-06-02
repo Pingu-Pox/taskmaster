@@ -39,7 +39,7 @@ const invoke = (interaction) => {
         "0", // glyphscribe
         "0", // runespeaker
         "0", // masterCrafter
-        "1107437593806786642", //ascendantCraftsdwarf
+        "1061118295442464778", //ascendantCraftsdwarf
     ];
 
     // All logistical roles - these users will get a scenario based on the overseeing of others

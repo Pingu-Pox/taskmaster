@@ -94,6 +94,10 @@ const invoke = (interaction) => {
             (err, pool) => {
                 if (err) {
                     console.error(err);
+                    interaction.reply({
+                        content: `Cannot list the contents of the selected pool \`pool${elementKey}${envType}.json\` because it's empty. Add some new elements to it!`,
+                        ephemeral: true,
+                    });
                     return;
                 }
 
@@ -119,6 +123,10 @@ const invoke = (interaction) => {
             }
         );
     } catch (err) {
+        interaction.reply({
+            content: `Cannot list the contents of the selected pool \`pool${elementKey}${envType}.json\` because it's empty. Add some new elements to it!`,
+            ephemeral: true,
+        });
         console.error(err);
         return;
     }
