@@ -19,82 +19,82 @@ const invoke = (interaction) => {
 
     // All commercial roles - these users will get a scenario based on the creation of said item, as well as delivery
     const commercialRoles = [
-        "1107428487117160559", // ironguardCommercial1
-        "0", // ironguardCommercial2
-        "0", // ironguardCommercial3
-        "0", // ironguardCommercial4
-        "0", // ironguardCommercial5
-        "0", // ironguardCommercialNCO
-        "1107436886210924676", // ironHawk
+        "1117671868376297482", // ironAttendant
+        "1117672118990151690", // cragWatch
+        "1117672150858481734", // peakStandard
+        "1117672184970752152", // boulderMarshal
+        "1117672215547224134", // deputyWarden
+        "1117672257087610961", // wardenOverseer
+        "1107436886210924676", // mongerOfWar
         "1107428105074778153", // toiler
-        "0", // farmhand
-        "0", // herdsman
-        "0", // rancher
-        "0", // keeper
-        "0", // shepherd
+        "1111686383027884042", // farmhand
+        "1111686558584688731", // herdsman
+        "1111686683331670076", // rancher
+        "1111686731641651220", // keeper
+        "1111688960675164260", // shepherd
         "1102057432634630265", // ramkeeper
-        "1107428358276517888", // initiate
-        "0", // apprentice
-        "0", // journeydwarf
-        "0", // glyphscribe
-        "0", // runespeaker
-        "0", // masterCrafter
+        "1111341147235811368", // initiate
+        "1111341199954026527", // apprentice
+        "1111341248603758703", // journeydwarf
+        "1111341304262168667", // glyphscribe
+        "1111341449628373002", // runespeaker
+        "1111341508818374777", // masterCrafter
         "1061118295442464778", //ascendantCraftsdwarf
     ];
 
     // All logistical roles - these users will get a scenario based on the overseeing of others
     const logisticalRoles = [
-        "1107428535683006594", // ironguardLogistical1
-        "0", // ironguardLogistical2
-        "0", // ironguardLogistical3
-        "0", // ironguardLogistical4
-        "0", // ironguardLogistical5
-        "0", // ironguardLogisticalNCO
-        "1107436948869615746", // ministerOfCoin
-        "1107428271253110886", // merryMaker
-        "0", // talespinner
-        "0", // storyteller
-        "0", // fabler
-        "0", // chronicler
-        "0", // brewmaster
-        "1107437034701848628", // hearthmaven
-        "1107428404384501821", // student
-        "0", // librarian
-        "0", // scholar
-        "0", // historian
-        "0", // archaeologist
-        "0", // lorekeeper
+        "1117672388868456500", // ironAuditor
+        "1117672422926196887", // silverBookkeeper
+        "1117672452688986213", // goldBroker
+        "1117672482099441764", // platinumMerchant
+        "1117672512885620756", // diamondFinancier
+        "1117672554446991390", // warbrandMarketeer
+        "867286813453582366", // ministerOfCoin
+        "1111689837460848782", // merryMaker
+        "1111689895874932786", // talespinner
+        "1111690075948982354", // storyteller
+        "1111690156769030277", // fabler
+        "1111690221868818482", // proprietor
+        "1111690291854987336", // brewmaster
+        "1102057521037967441", // hearthmaven
+        "1111338922111422545", // student
+        "1111338956148187186", // librarian
+        "1111339006253342831", // scholar
+        "1111339309899989103", // historian
+        "1111339366078496890", // archaeologist
+        "1111339519204143285", // lorekeeper
         "1061118286756053052", // loremaster
     ];
 
     // All martial roles - these users will get a scenario based on the aquisition of materials
     const martialRoles = [
-        "1107428436911337533", // ironguardMartial1
-        "0", // ironguardMartial2
-        "0", // ironguardMartial3
-        "0", // ironguardMartial4
-        "0", // ironguardMartial5
-        "0", // ironguardMartialNCO
+        "1117671462619336787", // ironRecruit
+        "1117671595801071676", // ironcladSentinel
+        "1117671634829066281", // steelVanguard
+        "1117671673735434291", // temperedCaptain
+        "1117671724314529853", // adamantCommander
+        "1117671797278654577", // unyieldingEnforcer
         "867287109940543518", // generalOfIron
-        "1107428232174780456", // adventurer
-        "0", // scout
-        "0", // seeker
-        "0", // outrider
-        "0", // ranger
-        "0", // slayer
-        "1107437135096729691", // pathfinder
-        "1107428316580954214", // acolyte
-        "0", // missionary
-        "0", // inquisitor
-        "0", // exorcist
-        "0", // crusader
-        "0", // arbiter
+        "1111342543649636515", // adventurer
+        "1111342605188472863", // scout
+        "1111342650818302003", // seeker
+        "1111342701019942982", // outrider
+        "1111342831932542976", // ranger
+        "1111685579436982403", // slayer
+        "1102057268104675359", // pathfinder
+        "1111337619599671316", // acolyte
+        "1111337778735751268", // missionary
+        "1111337901117165749", // inquisitor
+        "1111338068495061072", // exorcist
+        "1111338279422406656", // crusader
+        "1111338337744199751", // arbiter
         "1061118908918140958", // grandArbiter
     ];
 
     // All special roles
     const specialRoles = [
-        "1107454215179206697", // kin
+        "661017102680850432", // kin
         "673298192640770060", // thane
         "661019764583432222", // matriarch
     ];
