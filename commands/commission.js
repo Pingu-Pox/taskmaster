@@ -224,25 +224,41 @@ const invoke = (interaction) => {
     console.log(enchant);
 
     // Write a customized blob of text that references the user's rank, scenario, and item elements.
-    let embedDescription =
-        //"Customized blob of text pieced together by the below materials and some custom prompts.";
-        "You have been commissioned to " +
-        pillarVerb +
-        " " +
-        handleVowels(subType) +
-        ", made from " +
-        metal +
-        ", " +
-        wood +
-        ", and " +
-        stone +
-        ". Adorned with " +
-        handleVowels(gem) +
-        " and upholstered with " +
-        misc +
-        ". Lastly ensure it has been enchanted with " +
-        enchant +
-        ". Good luck.";
+    let embedDescription;
+
+    if (
+        subType === "N/A" ||
+        metal === "N/A" ||
+        wood === "N/A" ||
+        stone === "N/A" ||
+        misc === "N/A" ||
+        gem === "N/A" ||
+        enchant === "N/A"
+    ) {
+        embedDescription =
+            //"We had a missing element, commission could not be completed.";
+            'Your commission could not be generated due to missing pool data, check below for any pools reporting "N/A" and make sure to get live data merged in for it.';
+    } else {
+        embedDescription =
+            //"Customized blob of text pieced together by the below materials and some custom prompts.";
+            "You have been commissioned to " +
+            pillarVerb +
+            " " +
+            handleVowels(subType) +
+            ", made from " +
+            metal +
+            ", " +
+            wood +
+            ", and " +
+            stone +
+            ". Adorned with " +
+            handleVowels(gem) +
+            " and upholstered with " +
+            misc +
+            ". Lastly ensure it has been enchanted with " +
+            enchant +
+            ". Good luck.";
+    }
 
     const embed = new EmbedBuilder()
         .setColor("DarkPurple")
@@ -307,10 +323,20 @@ const invoke = (interaction) => {
 };
 
 function getRandomElement(element) {
-    const elementBuffer = fs.readFileSync(
-        `./data/live/${element}.json`,
-        "utf8"
-    );
+    let elementBuffer;
+    try {
+        elementBuffer = fs.readFileSync(`./data/live/${element}.json`, "utf8");
+    } catch (error) {
+        if (error.code === "ENOENT") {
+            // Handle the file not found error
+            return "N/A";
+        } else {
+            // Handle other types of errors
+            console.error(error);
+            return "An error occurred.";
+        }
+    }
+
     const elementObj = JSON.parse(elementBuffer);
     const elementValues = Object.values(elementObj);
     const randomIndex = Math.floor(Math.random() * elementValues.length);
