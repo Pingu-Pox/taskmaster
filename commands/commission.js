@@ -192,6 +192,9 @@ const invoke = (interaction) => {
             return;
     }
 
+    // Commission ran
+    console.log(`${interaction.member.displayName} ran /commission`);
+
     // Roll sub-type (e.g. helmet)
     const subType = getRandomElement(commissionType);
     console.log(subType);
