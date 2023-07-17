@@ -26,7 +26,7 @@ const invoke = (interaction) => {
         "1117672215547224134", // deputyWarden
         "1117672257087610961", // wardenOverseer
         "1107436886210924676", // mongerOfWar
-        "1107428105074778153", // toiler
+        "1111686289381654538", // toiler
         "1111686383027884042", // farmhand
         "1111686558584688731", // herdsman
         "1111686683331670076", // rancher
@@ -318,7 +318,7 @@ const invoke = (interaction) => {
 
     interaction.reply({
         embeds: [embed],
-        ephemeral: true,
+        ephemeral: false,
     });
 };
 
