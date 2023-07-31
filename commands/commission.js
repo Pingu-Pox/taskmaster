@@ -318,7 +318,7 @@ const invoke = (interaction) => {
 
     interaction.reply({
         embeds: [embed],
-        ephemeral: false,
+        ephemeral: true,
     });
 };
 
