@@ -329,6 +329,7 @@ function getRandomElement(element) {
     } catch (error) {
         if (error.code === "ENOENT") {
             // Handle the file not found error
+            console.error(error);
             return "N/A";
         } else {
             // Handle other types of errors
