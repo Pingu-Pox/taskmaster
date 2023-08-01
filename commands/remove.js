@@ -50,7 +50,9 @@ const create = () => {
 
 // Called by the interactionCreate event listener when the corresponding command is invoked
 const invoke = (interaction) => {
-    const elementKey = interaction.options.getString("elementkey");
+    const elementKey = interaction.options
+        .getString("elementkey")
+        .toLowerCase();
     const keyToDelete = interaction.options.getString("key");
     let poolData = {};
     let trashData = {};
