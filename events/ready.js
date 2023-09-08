@@ -23,16 +23,13 @@ async function invoke(client) {
     console.log(`Successfully logged in as ${client.user.tag}!`);
 
     const CLIENT_ID = client.user.id;
+    const GUILD_ID = process.env.GUILD_ID;
     const rest = new REST({ version: "9" }).setToken(process.env.TOKEN);
+
     (async () => {
         try {
             console.log("Trying to register commands...");
-            if (process.env.ENV === "production") {
-                await rest.put(Routes.applicationCommands(CLIENT_ID), {
-                    body: commandsArray,
-                });
-                console.log("Successfully registered commands globally.");
-            } else {
+            if (GUILD_ID) {
                 await rest.put(
                     Routes.applicationGuildCommands(
                         CLIENT_ID,
@@ -43,6 +40,11 @@ async function invoke(client) {
                     }
                 );
                 console.log("Successfully registered commands locally.");
+            } else {
+                await rest.put(Routes.applicationCommands(CLIENT_ID), {
+                    body: commandsArray,
+                });
+                console.log("Successfully registered commands globally.");
             }
         } catch (err) {
             if (err) console.log(err);
