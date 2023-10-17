@@ -1,6 +1,2 @@
 .env
-*.txt
-*.sh
-*.bat
-*.json
 node_modules
