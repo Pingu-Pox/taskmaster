@@ -1,4 +1,4 @@
-## Runescriber
+## Taskmaster
 
 This Discord bot facilitates the Runeforge Expo, with commands enabling users to add/edit/remove elements that comprise a randomized commission.
 
@@ -34,7 +34,10 @@ services:
       - GUILD_ID=
       # Bot token, obtained from https://discord.com/developers when creating a bot user
       - TOKEN=
+    volumes:
+      - ./data:/usr/src/app/data
     restart: always
+
 ```
 
 Run the bot using `docker-compose up -d`. I suggest setting up your system to auto-launch the bot so it can be left unattended. Optionally use Watchtower to have Taskmaster update automatically when a new image is pushed to the Docker hub, or simply restart the Docker container every now and then to get updates.
