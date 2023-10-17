@@ -33,6 +33,17 @@ for (let event of events) {
         });
 }
 
+// Setup data directories if not already setup
+const createDirectoryIfNotExists = (directory) => {
+    if (!fs.existsSync(directory)) {
+        fs.mkdirSync(directory, { recursive: true });
+    }
+};
+createDirectoryIfNotExists("./data/live");
+createDirectoryIfNotExists("./data/merges");
+createDirectoryIfNotExists("./data/staged");
+createDirectoryIfNotExists("./data/trash");
+
 // Login with the environment data
 if (process.env.TOKEN === "") {
     console.error(
