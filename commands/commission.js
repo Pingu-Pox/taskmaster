@@ -19,13 +19,13 @@ const invoke = (interaction) => {
 
     // All commercial roles - these users will get a scenario based on the creation of said item, as well as delivery
     const commercialRoles = [
-        "1117671868376297482", // ironAttendant
-        "1117672118990151690", // cragWatch
-        "1117672150858481734", // peakStandard
-        "1117672184970752152", // boulderMarshal
-        "1117672215547224134", // deputyWarden
-        "1117672257087610961", // wardenOverseer
-        "1107436886210924676", // mongerOfWar
+        "1117672388868456500", // garnetCrewman
+        "1117672422926196887", // amethystSeadog
+        "1117672452688986213", // sapphireSeafarer
+        "1117672482099441764", // rubyMarshal
+        "1117672512885620756", // jadedCaptain
+        "1117672554446991390", // onyxAnchor
+        "867286813453582366",  // diamondAdmiral
         "1111686289381654538", // toiler
         "1111686383027884042", // farmhand
         "1111686558584688731", // herdsman
@@ -39,18 +39,18 @@ const invoke = (interaction) => {
         "1111341304262168667", // glyphscribe
         "1111341449628373002", // runespeaker
         "1111341508818374777", // masterCrafter
-        "1061118295442464778", //ascendantCraftsdwarf
+        "1061118295442464778", // ascendantCraftsdwarf
     ];
 
     // All logistical roles - these users will get a scenario based on the overseeing of others
     const logisticalRoles = [
-        "1117672388868456500", // ironAuditor
-        "1117672422926196887", // silverBookkeeper
-        "1117672452688986213", // goldBroker
-        "1117672482099441764", // platinumMerchant
-        "1117672512885620756", // diamondFinancier
-        "1117672554446991390", // warbrandMarketeer
-        "867286813453582366", // ministerOfCoin
+        "1117671868376297482", // tinRecruit
+        "1117672118990151690", // copperPrivate
+        "1117672150858481734", // bronzeSergeant
+        "1117672184970752152", // silverLieutenant
+        "1117672215547224134", // platinumCaptain
+        "1117672257087610961", // palladiumMajor
+        "867287695986524200", // masterOfGold
         "1111689837460848782", // merryMaker
         "1111689895874932786", // talespinner
         "1111690075948982354", // storyteller
@@ -70,12 +70,12 @@ const invoke = (interaction) => {
     // All martial roles - these users will get a scenario based on the aquisition of materials
     const martialRoles = [
         "1117671462619336787", // ironRecruit
-        "1117671595801071676", // ironcladSentinel
-        "1117671634829066281", // steelVanguard
-        "1117671673735434291", // temperedCaptain
-        "1117671724314529853", // adamantCommander
-        "1117671797278654577", // unyieldingEnforcer
-        "867287109940543518", // generalOfIron
+        "1117671595801071676", // ironSentinel
+        "1117671634829066281", // ironLieutenant
+        "1117671673735434291", // ironCaptain
+        "1117671724314529853", // ironCommander
+        "1117671797278654577", // ironBrigadier
+        "867287109940543518",  // generalOfIron
         "1111342543649636515", // adventurer
         "1111342605188472863", // scout
         "1111342650818302003", // seeker
