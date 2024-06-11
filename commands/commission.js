@@ -313,7 +313,7 @@ const invoke = (interaction) => {
         .setFooter({
             text: "Dünhold LLC.",
             iconURL:
-                "https://xn--dnhold-3ya.com/wp-content/uploads/2023/02/Dunhold_banner_logo.png",
+                "https://xn--dnhold-3ya.com/wp-content/uploads/2023/08/Dunhold-Logo-copywrite.png",
         });
 
     interaction.reply({
