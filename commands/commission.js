@@ -262,8 +262,8 @@ const invoke = (interaction) => {
 
     const embed = new EmbedBuilder()
         .setColor("DarkPurple")
-        .setTitle("2023 Runeforge Expo")
-        .setURL("https://dünhold.com")
+        .setTitle("Runeforge Expo 2024")
+        .setURL("https://library.dünhold.com/en/events/runeforge-expo")
         .setDescription(embedDescription)
         .setThumbnail(
             "https://xn--dnhold-3ya.com/wp-content/uploads/2023/05/Calgrim-the-Taskmaster.png"
