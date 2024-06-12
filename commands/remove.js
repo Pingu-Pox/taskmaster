@@ -61,7 +61,7 @@ const invoke = (interaction) => {
     let trashObj = {};
 
     const canRunCommand = [
-        process.env.AUTHORIZED_ADMINS,
+        `${process.env.AUTHORIZED_ADMINS}`,
     ];
 
     const userRoles = interaction.member.roles.cache; // Get the roles of the interaction member
