@@ -58,9 +58,9 @@ const invoke = (interaction) => {
     let dataObj = {};
 
     const canRunCommand = [
-        "739629116914925639", // Ironguard
-        "739629038691418242", // Ramheart
-        "739629203649200168", // Runeforge
+        process.env.IRONGUARD,
+        process.env.RAMHEART,
+        process.env.RUNEFORGE,
     ];
 
     const userRoles = interaction.member.roles.cache; // Get the roles of the interaction member

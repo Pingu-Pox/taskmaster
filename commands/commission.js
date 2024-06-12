@@ -1,4 +1,5 @@
 import { SlashCommandSubcommandBuilder, EmbedBuilder } from "discord.js";
+import {} from "dotenv/config";
 import fs from "fs";
 
 const NAME = "commission";
@@ -19,84 +20,84 @@ const invoke = (interaction) => {
 
     // All commercial roles - these users will get a scenario based on the creation of said item, as well as delivery
     const commercialRoles = [
-        "1117672388868456500", // garnetCrewman
-        "1117672422926196887", // amethystSeadog
-        "1117672452688986213", // sapphireSeafarer
-        "1117672482099441764", // rubyMarshal
-        "1117672512885620756", // jadedCaptain
-        "1117672554446991390", // onyxAnchor
-        "867286813453582366",  // diamondAdmiral
-        "1111686289381654538", // toiler
-        "1111686383027884042", // farmhand
-        "1111686558584688731", // herdsman
-        "1111686683331670076", // rancher
-        "1111686731641651220", // keeper
-        "1111688960675164260", // shepherd
-        "1102057432634630265", // ramkeeper
-        "1111341147235811368", // initiate
-        "1111341199954026527", // apprentice
-        "1111341248603758703", // journeydwarf
-        "1111341304262168667", // glyphscribe
-        "1111341449628373002", // runespeaker
-        "1111341508818374777", // masterCrafter
-        "1061118295442464778", // ascendantCraftsdwarf
+        process.env.IGC1,
+        process.env.IGC2,
+        process.env.IGC3,
+        process.env.IGC4,
+        process.env.IGC5,
+        process.env.IGC6,
+        process.env.IGC7,
+        process.env.RAC1,
+        process.env.RAC2,
+        process.env.RAC3,
+        process.env.RAC4,
+        process.env.RAC5,
+        process.env.RAC6,
+        process.env.RAC7,
+        process.env.RUC1,
+        process.env.RUC2,
+        process.env.RUC3,
+        process.env.RUC4,
+        process.env.RUC5,
+        process.env.RUC6,
+        process.env.RUC7,
     ];
 
     // All logistical roles - these users will get a scenario based on the overseeing of others
     const logisticalRoles = [
-        "1117671868376297482", // tinRecruit
-        "1117672118990151690", // copperPrivate
-        "1117672150858481734", // bronzeSergeant
-        "1117672184970752152", // silverLieutenant
-        "1117672215547224134", // platinumCaptain
-        "1117672257087610961", // palladiumMajor
-        "867287695986524200", // masterOfGold
-        "1111689837460848782", // merryMaker
-        "1111689895874932786", // talespinner
-        "1111690075948982354", // storyteller
-        "1111690156769030277", // fabler
-        "1111690221868818482", // proprietor
-        "1111690291854987336", // brewmaster
-        "1102057521037967441", // hearthmaven
-        "1111338922111422545", // student
-        "1111338956148187186", // librarian
-        "1111339006253342831", // scholar
-        "1111339309899989103", // historian
-        "1111339366078496890", // archaeologist
-        "1111339519204143285", // lorekeeper
-        "1061118286756053052", // loremaster
+        process.env.IGL1,
+        process.env.IGL2,
+        process.env.IGL3,
+        process.env.IGL4,
+        process.env.IGL5,
+        process.env.IGL6,
+        process.env.IGL7,
+        process.env.RAL1,
+        process.env.RAL2,
+        process.env.RAL3,
+        process.env.RAL4,
+        process.env.RAL5,
+        process.env.RAL6,
+        process.env.RAL7,
+        process.env.RUL1,
+        process.env.RUL2,
+        process.env.RUL3,
+        process.env.RUL4,
+        process.env.RUL5,
+        process.env.RUL6,
+        process.env.RUL7,
     ];
 
     // All martial roles - these users will get a scenario based on the aquisition of materials
     const martialRoles = [
-        "1117671462619336787", // ironRecruit
-        "1117671595801071676", // ironSentinel
-        "1117671634829066281", // ironLieutenant
-        "1117671673735434291", // ironCaptain
-        "1117671724314529853", // ironCommander
-        "1117671797278654577", // ironBrigadier
-        "867287109940543518",  // generalOfIron
-        "1111342543649636515", // adventurer
-        "1111342605188472863", // scout
-        "1111342650818302003", // seeker
-        "1111342701019942982", // outrider
-        "1111342831932542976", // ranger
-        "1111685579436982403", // slayer
-        "1102057268104675359", // pathfinder
-        "1111337619599671316", // acolyte
-        "1111337778735751268", // missionary
-        "1111337901117165749", // inquisitor
-        "1111338068495061072", // exorcist
-        "1111338279422406656", // crusader
-        "1111338337744199751", // arbiter
-        "1061118908918140958", // grandArbiter
+        process.env.IGM1,
+        process.env.IGM2,
+        process.env.IGM3,
+        process.env.IGM4,
+        process.env.IGM5,
+        process.env.IGM6,
+        process.env.IGM7,
+        process.env.RAM1,
+        process.env.RAM2,
+        process.env.RAM3,
+        process.env.RAM4,
+        process.env.RAM5,
+        process.env.RAM6,
+        process.env.RAM7,
+        process.env.RUM1,
+        process.env.RUM2,
+        process.env.RUM3,
+        process.env.RUM4,
+        process.env.RUM5,
+        process.env.RUM6,
+        process.env.RUM7,
     ];
 
     // All special roles
     const specialRoles = [
-        "661017102680850432", // kin
-        "673298192640770060", // thane
-        "661019764583432222", // matriarch
+        process.env.KIN, // kin
+        process.env.THANE, // thane
+        process.env.HIGHTHANE, // matriarch
     ];
 
     // Inside your command handler or interaction event

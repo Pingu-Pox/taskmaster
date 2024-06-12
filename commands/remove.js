@@ -60,10 +60,7 @@ const invoke = (interaction) => {
     let trashObj = {};
 
     const canRunCommand = [
-        "108400898195079168", // Hrothmir
-        "209885020041641985", // Thoghli
-        "218066533438586880", // Pingu
-        "234456826022854656", // Kyandar
+        process.env.AUTHORIZED_ADMINS,
     ];
 
     const userRoles = interaction.member.roles.cache; // Get the roles of the interaction member
