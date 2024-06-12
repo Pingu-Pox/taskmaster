@@ -18,7 +18,7 @@ const create = () => {
 // Called by the interactionCreate event listener when the corresponding command is invoked
 const invoke = (interaction) => {
     const canRunCommand = [
-        `${process.env.AUTHORIZED_ADMINS}`,
+        process.env.AUTHORIZED_ADMINS,
     ];
 
     const userRoles = interaction.member.roles.cache; // Get the roles of the interaction member
