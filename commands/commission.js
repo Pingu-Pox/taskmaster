@@ -42,6 +42,10 @@ const invoke = (interaction) => {
         process.env.RUC6,
         process.env.RUC7,
     ];
+    console.log("Outputting Commercial Role IDs: \n");
+    commercialRoles.forEach(value => {
+        console.log(value);
+    });
 
     // All logistical roles - these users will get a scenario based on the overseeing of others
     const logisticalRoles = [
@@ -67,6 +71,10 @@ const invoke = (interaction) => {
         process.env.RUL6,
         process.env.RUL7,
     ];
+    console.log("Outputting Logistical Role IDs: \n");
+    logisticalRoles.forEach(value => {
+        console.log(value);
+    });
 
     // All martial roles - these users will get a scenario based on the aquisition of materials
     const martialRoles = [
@@ -92,6 +100,10 @@ const invoke = (interaction) => {
         process.env.RUM6,
         process.env.RUM7,
     ];
+    console.log("Outputting Martial Role IDs: \n");
+    martialRoles.forEach(value => {
+        console.log(value);
+    });
 
     // All special roles
     const specialRoles = [
@@ -99,6 +111,10 @@ const invoke = (interaction) => {
         process.env.THANE, // thane
         process.env.HIGHTHANE, // matriarch
     ];
+    console.log("Outputting Special Role IDs: \n");
+    specialRoles.forEach(value => {
+        console.log(value);
+    });
 
     // Inside your command handler or interaction event
     const userRoles = interaction.member.roles.cache; // Get the roles of the interaction member
