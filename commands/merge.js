@@ -17,9 +17,7 @@ const create = () => {
 // Called by the interactionCreate event listener when the corresponding command is invoked
 const invoke = (interaction) => {
     const canRunCommand = [
-        "108400898195079168", // Hrothmir
-        "209885020041641985", // Thoghli
-        "218066533438586880", // Pingu
+        process.env.AUTHORIZED_ADMINS,
     ];
 
     const userRoles = interaction.member.roles.cache; // Get the roles of the interaction member
