@@ -4,6 +4,7 @@ import {
     AttachmentBuilder,
     MessagePayload,
 } from "discord.js";
+import {} from "dotenv/config";
 import fs from "fs";
 
 const NAME = "list";

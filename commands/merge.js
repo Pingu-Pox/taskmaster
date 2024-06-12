@@ -1,4 +1,5 @@
 import { SlashCommandSubcommandBuilder, PermissionsBitField } from "discord.js";
+import {} from "dotenv/config";
 import fs from "fs";
 import path from "path";
 
